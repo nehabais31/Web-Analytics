@@ -1,0 +1,224 @@
+---
+title: "Assignment-2"
+author: "Neha Bais"
+date: "9/22/2020"
+output: html_notebook
+---
+
+# Use the PubMed dataset and download at least five years of scientific articles.
+
+
+Required libraries
+```{r}
+#install.packages("RISmed")
+#install.packages("tidyverse")
+#install.packages("dplyr")
+#install.packages("ggplot2")
+#install.packages("ggthemes")
+#install.packages("extrafont")
+#install.packages("plyr")
+#install.packages("ggalt")
+#install.packages('tidytext')
+#install.packages("mapproj")
+#install.packages("ggmap")
+
+
+library(RISmed)
+library(tidyverse)
+library(dplyr)
+library(tidytext)
+library(ggplot2)
+library(ggthemes)
+library(extrafont)
+library(plyr)
+library(ggalt)
+library(ggmap)
+library(maps)
+library(mapproj)
+```
+
+# Part-1
+####### RISmed library is used for this task.
+####### I restricted 1000 articles for each year 
+
+```{r}
+year_list <- c(2016,2017,2018,2019,2020)
+datalist <- list()
+
+for (year in year_list){
+  search_topic <- ''
+  search_query <- EUtilsSummary(search_topic, retmax=1000, mindate=year, maxdate=year)
+  summary(search_query)
+  
+  # see the ids of our returned query
+  QueryId(search_query)
+  
+  # get actual data from PubMed
+  records<- EUtilsGet(search_query)
+  class(records)
+  
+  # Extract required fields only
+  abstracts <- data.frame(title = records@ArticleTitle,
+                          year = records@YearPubmed)
+  
+  # add data to list
+  datalist[[year]] <- abstracts
+  
+}
+
+# Combine dataframe
+big_data <- do.call(rbind, datalist)
+head(big_data, 3)
+```
+
+##### Calculating frequencies for each of the following terms: Influenza, Obesity, Cancer, Covid-19 
+
+```{r}
+#######################
+#  Getting word freq  #
+#######################
+
+words_count <- big_data %>% 
+               unnest_tokens(input=title, output=word,
+                            format = 'text', token = 'words', drop=FALSE, 
+                            to_lower=TRUE,strip_punct=TRUE) %>%
+               dplyr::count(year, word)
+
+desired_words <- words_count[grep('influenza|cancer|obesity|covid',words_count$word),]
+
+# Getting results of my words
+final_result <- list()
+my_words <- c('influenza','cancer','obesity','covid')
+
+for(word in my_words){
+  df <- desired_words[desired_words$word==word,]
+  final_result[[word]] <- df
+}
+
+final_result <- do.call(rbind, final_result)
+rownames(final_result) <- NULL
+colnames(final_result) <- c('year', 'word', 'freq')
+print(final_result, row.names = F)
+```
+
+### a. Area Plot comparing frequencies for the defined terms for each year.
+
+```{r}
+###############
+#  Area Plot  #
+###############
+p1 <- ggplot() + 
+  geom_area(aes(y = freq, x = year, fill = word), data = final_result, stat="identity")+
+  ggtitle("Area Plot for Word Frequency") +
+  theme(plot.title = element_text(hjust = 0.5)) 
+    
+p1
+
+```
+
+### b. Dumbell chart 
+##### Finding frequencies of below keywords for 2019 and 2020 years:
+##### Influenza, Covid-19, Depression, Mental health, Physical activity, Wearable
+
+```{r}
+# selecting records of only 2019 and 2020
+reduced_df <- words_count[words_count$year %in% c(2019,2020), ]
+table(reduced_df$year)
+
+# search for desired words in all words count dataframe
+desired_words2 <- reduced_df[grep('influenza|depression|mental health|covid|physical activity|wearable',
+                                  reduced_df$word),]
+
+# Getting results of my words
+words_dumb_chart <- list()
+words_dc <- c('influenza','depression','mental health','covid','physical activity','wearable')
+
+for(word in words_dc){
+  df2 <- desired_words2[desired_words2$word==word,]
+  words_dumb_chart[[word]] <- df2
+}
+
+words_dumb_chart <- do.call(rbind, words_dumb_chart)
+rownames(words_dumb_chart) <- NULL
+print(words_dumb_chart, row.names = F)
+
+
+w <- c('influenza','depression','mental health','covid','physical activity','wearable')
+c_2019 <- c(0,3,0,0,0,0)
+c_2020 <- c(4,12,0,49,0,0)
+df_dchart <- data.frame(word = w, count_2019=c_2019, count_2020=c_2020)
+```
+
+###  Dumbell Plot comparing changes of defined keywords for 2 years.
+```{r}
+
+p2 <- ggplot(df_dchart, aes(x=count_2019, xend=count_2020, y=word)) + 
+  geom_dumbbell() +
+  ggtitle("Dumbell plot for word frequency 2019 vs 2020") +
+  theme(plot.title = element_text(hjust = 0.5)) 
+
+p2
+```
+The above plot shows that only depression term appears in both 2019 and 2020 years and the change in frequency is from 3 to 12.
+
+
+# Part-2
+#### Create a choropleth map for visualising number of COVID comfirmed cases in Massachusetts.
+#### https://www.mass.gov/info-details/covid-19-response-reporting
+
+```{r}
+# State data
+s <- map_data('county')
+state_data <- s %>% filter(region == 'massachusetts')
+
+# COVID data - USA
+covid_data <- read.csv('mass_covid_cases.csv', header = T)
+
+
+# Merge state geographical data and covid data
+covid_data$County <- tolower(covid_data$County)
+final_covid_data  <- merge(state_data, covid_data,
+                     by.x = 'subregion',
+                     by.y = 'County')
+
+#data <- data[order(data$Confirmed.cases.till.date), ]
+
+#aggregate data to get mean latitude and mean longitude for each county
+cnames <- aggregate(cbind(long, lat) ~ subregion, data=final_covid_data, FUN=function(x) mean(range(x)))
+
+head(final_covid_data)
+```
+
+
+### Plot the covid cases data on Massachusetts map
+
+###### Barnstable    	1697
+###### Berkshire	      702
+###### Bristol       	9700
+###### Dukes         	61
+###### Essex	          18872
+###### Franklin	      401
+###### Hampden	        7947
+###### Hampshire     	1203
+###### Middlesex	      26545
+###### Nantucket     	85
+###### Norfolk	        9980
+###### Plymouth      	9487
+###### Suffolk	        23552
+###### Worcester     	14007
+
+
+```{r}
+# Plot the data on massachusetts map
+ggplot() +
+  geom_polygon(data = final_covid_data, 
+               aes(x = long, y = lat, group = group, fill = Confirmed.cases.till.date), 
+              color = 'black', size = 0.5) +
+  coord_map()+
+  scale_fill_distiller(name="Confirmed cases", palette  = 'Reds', direction = 1)+
+  theme_nothing(legend = TRUE) +
+  ggtitle("Covid-19 confirmed cases in Massachusetts") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  geom_text(data=cnames, aes(long, lat, label = subregion), size=3, fontface="bold")
+```
+
