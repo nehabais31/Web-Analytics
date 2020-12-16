@@ -11,10 +11,10 @@ The purpose of this project is to analyze 10 years of PubMed data for the keywor
   
 ### Project Deliverables:   
  • Area Plot for analyzing trajectory of these keywords frequency over 10 years.  
- • *AFINN algorithm* - Sentiment Analysis  
- • *Kruskal Wallis & Mann Whitney U algorithms* - Non-Parmetric Statistical Tests    
- • *LDA* - Clustering and visualizing its results using Dendrogram  
- • *Apriori algorithm* - Association Rule Mining     
+ • *#AFINN algorithm* - Sentiment Analysis  
+ • *#Kruskal Wallis & Mann Whitney U algorithms* - Non-Parmetric Statistical Tests    
+ • *#LDA* - Clustering and visualizing its results using Dendrogram  
+ • *#Apriori algorithm* - Association Rule Mining     
   
 ### Technical Requirements:  
 •	Python 3.7.6  
