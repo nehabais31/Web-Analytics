@@ -22,16 +22,21 @@ Apart from these, there is an interesting observation about mental health academ
 
 ### 2.2 Frequency distribution over years for each keyword  
 
-<img width="383" alt="area" src="https://user-images.githubusercontent.com/60439971/104654481-2a4b8500-568a-11eb-8921-5d749ca480d4.png">
- 
+![freq_distr](https://user-images.githubusercontent.com/60439971/104655342-98447c00-568b-11eb-9622-8d73486b7445.png)
+![area_plot](https://user-images.githubusercontent.com/60439971/104655351-9d093000-568b-11eb-8faa-2a7a10f41663.png)
+
 From the above distribution, cancer is the most frequent focus of academia over these 9 years. However, from the area plot we can see the focus dropped for cancer in 2020, it may be because 2020 is still left or there is a shift in research field in 2020 which is somewhat justified by Covid-19 surge in 2020. 
 Apart from cancer, mental health field got the second most popularity in research and then comes the obesity. Mental health is becoming a hot topic these days apart from Covid-19, which focuses on person’s emotional, psychological and social well-being. This is because now-a-days we can hear many cases of suicide due to depression, stress etc. So, this might be the reason the academia is focusing on the study of mental health of people.  
   
 ### 2.3 Statistical Analysis
 In order to find if there is a similarity in the distributions of these keywords over years, we performed statistical test. Below density plots gave a picture that the distribution is not normal for these keywords over years.   
 
-<img width="389" alt="density_plot" src="https://user-images.githubusercontent.com/60439971/104654552-4a7b4400-568a-11eb-9641-c2c1b3d9174d.png">
- 
+![Figure_2](https://user-images.githubusercontent.com/60439971/104655429-be6a1c00-568b-11eb-9c85-a883385c8442.png)
+![Figure_3](https://user-images.githubusercontent.com/60439971/104655430-be6a1c00-568b-11eb-8402-33222e88f440.png)
+![Figure_4](https://user-images.githubusercontent.com/60439971/104655434-be6a1c00-568b-11eb-9de1-a603e9548d63.png)
+![Figure_5](https://user-images.githubusercontent.com/60439971/104655436-bf02b280-568b-11eb-91c8-efb2837f14b1.png)
+![Figure_1](https://user-images.githubusercontent.com/60439971/104655438-bf02b280-568b-11eb-8159-9d790ee84d0b.png)
+
 So, we used non-parametric tests, first Kruskal Wallis test to identify if all groups have a same distribution. We defined the null hypothesis as:
 H0: All keywords distributions are equal
 H1: At least 2 keywords have different distribution
@@ -46,7 +51,8 @@ P-value was significant for all the groups, except Obesity and Mental Health, so
 For finding the sentiments for each keyword, we have selected titles of the articles extracted for each keyword and then did some feature engineering like tokenizing the titles and removing stop-words, punctuations, stemming, converted them to document term matrix and then applied Afinn algorithm on them. 
 From the results, that we got, we can say that only articles for keyword “Wearable” got a positive sentiment and rest others got a negative score on an overall basis.  
 
-![sentiment_analysis](https://user-images.githubusercontent.com/60439971/104654782-ad6cdb00-568a-11eb-8d7a-5564905a47ba.png)
+<img width="125" alt="sentiment_1" src="https://user-images.githubusercontent.com/60439971/104655587-e8bbd980-568b-11eb-9e2b-08470d5a3ecd.PNG">
+![sentiment_2](https://user-images.githubusercontent.com/60439971/104655585-e8234300-568b-11eb-9eb2-e2bc4ab56e17.png)
     
 From the plot of sentiment trajectory over different years, we can see that for keywords ‘Covid-19’ and ‘Mental Health’, the negative sentiments got a surge in year 2020, which can be justifiable due to current pandemic situation. Also, we can see from the trajectory plot that only ‘Wearable’ keyword got the positive sentiments in most of the years.
 
