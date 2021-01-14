@@ -10,8 +10,9 @@ iv.	Find the similar research works.
 In order to answer these questions, we have used some statistical tests to find out whether the distribution is same for all keywords and if not which two groups differ. We have used AFINN algorithm to see the sentiments for each keyword. Lastly, to see if there is any similarity between different research works, we have used LDA clustering method and Apriori association rule mining algorithm.  
  
 ### 2.	Findings
-The findings will be presented in 6 sections based on different analysis of data: Analysis for each keyword over the years, Frequency distribution over years for each keyword, Statistical analysis, Sentiment analysis, finding similar research works.
-2.1 Analysis for each keyword over years
+The findings will be presented in 6 sections based on different analysis of data: Analysis for each keyword over the years, Frequency distribution over years for each keyword, Statistical analysis, Sentiment analysis, finding similar research works.  
+
+### 2.1 Analysis for each keyword over years
 By looking at the count of articles based on these keywords over 9 years, we found that the keywords obesity, wearable, cancer and mental health have gained popularity over these years, however for cancer the focus is slightly dropped in 2020. It might be because in 2020, Covid-19 has become a famous topic of interest among people. If we see the results for Covid-19, it surges in 2020 and now is the hot topic in medical field. It is interesting to see some results for Covid-19 in previous years also, but those were not of the same Coronavirus which has caused a pandemic in 2020. Influenza results are approximately the same over all these years which can be justified as flu is a common topic irrespective of any year unless it is causing a pandemic. 
 
 Apart from these, there is an interesting observation about mental health academia focus which also got a spike in results in 2020, which can be obvious, as to focus on the study of mental health of people during this pandemic.
