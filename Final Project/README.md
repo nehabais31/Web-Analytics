@@ -51,9 +51,8 @@ P-value was significant for all the groups, except Obesity and Mental Health, so
 For finding the sentiments for each keyword, we have selected titles of the articles extracted for each keyword and then did some feature engineering like tokenizing the titles and removing stop-words, punctuations, stemming, converted them to document term matrix and then applied Afinn algorithm on them. 
 From the results, that we got, we can say that only articles for keyword “Wearable” got a positive sentiment and rest others got a negative score on an overall basis.  
 
-<img width="125" alt="sentiment_1" src="https://user-images.githubusercontent.com/60439971/104655587-e8bbd980-568b-11eb-9e2b-08470d5a3ecd.PNG">
-![sentiment_2](https://user-images.githubusercontent.com/60439971/104655585-e8234300-568b-11eb-9eb2-e2bc4ab56e17.png)
-    
+![sentiment_analysis](https://user-images.githubusercontent.com/60439971/104655939-75ff2e00-568c-11eb-896d-8c03764b1a04.png)
+
 From the plot of sentiment trajectory over different years, we can see that for keywords ‘Covid-19’ and ‘Mental Health’, the negative sentiments got a surge in year 2020, which can be justifiable due to current pandemic situation. Also, we can see from the trajectory plot that only ‘Wearable’ keyword got the positive sentiments in most of the years.
 
 ### 2.5 Similar research works
